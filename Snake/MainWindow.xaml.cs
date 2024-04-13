@@ -63,7 +63,7 @@ namespace Snake
         {
             while(!gameState.GameOver)
             {
-                await Task.Delay(1000);
+                await Task.Delay(400);
                 gameState.Move();
                 Draw();
             }
@@ -93,6 +93,7 @@ namespace Snake
         private void Draw()
         {
             DrawGrid();
+            ScoreText.Text = $"SCORE {gameState.Score}";
         }
         private void DrawGrid()
         {
