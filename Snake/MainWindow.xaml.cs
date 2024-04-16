@@ -43,6 +43,8 @@ namespace Snake
             await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
+            await ShowGameOver();
+            gameState = new GameState(rows,cols);
         }
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
