@@ -15,6 +15,7 @@ namespace Snake
         public int Score { get; private set;}
         public bool GameOver { get; private set;}
 
+        private readonly LinkedList<Direction> directionChanges = new LinkedList<Direction>();
         private readonly LinkedList<Position> snakePositions = new LinkedList<Position>();
         private readonly Random random = new Random();
 
@@ -89,9 +90,30 @@ namespace Snake
             Grid[tail.Row, tail.Column] = GridValue.Empty;
             snakePositions.RemoveLast();
         }
+        private Direction GetLastDirection()
+        {
+            if (directionChanges.Count == 0)
+            {
+                return Dir;
+            }
+            return directionChanges.Last.Value;
+        }
+        private bool CanChangeDirection(Direction newDir)   //true, ha hozzá lehet adni a bufferhez
+        {
+            if(directionChanges.Count == 2)
+            {
+                return false;
+            }
+            Direction lastDir = GetLastDirection();
+            return newDir != lastDir && newDir != lastDir.Opposite();
+        }
         public void ChangeDirection(Direction direction)
         {
-            Dir = direction;
+            if (CanChangeDirection(direction))          //megnézzük, hogy lehet e irányt változtatni
+            {
+                directionChanges.AddLast(direction);
+            }
+
         }
         private bool OutsideGrid(Position pos)      //kimegy -e a keretből
         {
@@ -111,6 +133,11 @@ namespace Snake
         }
         public void Move()
         {
+            if(directionChanges.Count > 0)
+            {
+                Dir = directionChanges.First.Value;
+                directionChanges.RemoveFirst();
+            }
             Position newHeadPos = HeadPosition().Translate(Dir);
             GridValue hit = WillHit(newHeadPos);
             if(hit == GridValue.Outside || hit == GridValue.Snake)

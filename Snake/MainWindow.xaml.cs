@@ -63,7 +63,7 @@ namespace Snake
         {
             while(!gameState.GameOver)
             {
-                await Task.Delay(400);
+                await Task.Delay(100);
                 gameState.Move();
                 Draw();
             }
