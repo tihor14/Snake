@@ -88,10 +88,12 @@ namespace Snake
         }
         private async Task GameLoop()
         {
+            int speed = 400;
             while(!gameState.GameOver)
             {
-                await Task.Delay(100);
+                await Task.Delay(speed);
                 gameState.Move();
+                speed = gameState.Speed();
                 Draw();
             }
         }

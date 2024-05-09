@@ -154,5 +154,21 @@ namespace Snake
                 AddFood();
             }
         }
+        public int Speed()
+        {
+            if (Score <= 3)
+            {
+                return 400;
+            }
+            else if (Score <= 7)
+            {
+                return 300;
+            }
+            else if (Score <= 12)
+            {
+                return 200;
+            }
+            else return 100;
+        }
     }
 }
